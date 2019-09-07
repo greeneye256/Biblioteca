@@ -95,7 +95,7 @@ public class Main {
         }
         else {
             char letter = str.charAt(0);
-            if ((letter < 'a' || letter > 'g') && letter !='q'){
+            if ((letter < 'a' || letter > 'f') && letter !='q'){
                 System.out.println("You entered a wrong letter!");
                 return false;
             }
@@ -134,7 +134,7 @@ public class Main {
         else {
             char letter = str.charAt(0);
             if (letter !='m' && letter !='f'){
-                System.out.println("Wrong input! Enter gender. ('m' or 'f')");
+                System.out.println("Wrong input!");
                 return false;
             }
             else return true;
