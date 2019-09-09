@@ -7,8 +7,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Author a1 = new Author("fds sdfsd", "safas@sd.cd", 'm', "12341231");
-        System.out.println(a1.getPhoneNumber());
 
         Library library = new Library("Library of Cluj-Napoca");
 
@@ -19,7 +17,7 @@ public class Main {
         while (stayInLoop){
 
             library.printLibrary();
-            choice = library.makeAChoice();
+            choice = library.makeAChoiceMain();
 
             switch (choice){
                 case 'a':

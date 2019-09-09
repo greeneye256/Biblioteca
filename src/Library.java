@@ -21,7 +21,7 @@ public class Library {
 
     }
 
-    public void addAuthor(){
+    public Author addAuthor(){
 
         //name
 
@@ -72,17 +72,72 @@ public class Library {
         Author author = new Author(name,email,gender,phoneNumber);
         authors.add(author);
         numberOfAuthors++;
+        return author;
     }
 
     public void addBook(){
-        List<Author> listOfBookAuthors = new ArrayList<>();
-        printListsAuthorsAndBookAuthors(listOfBookAuthors);
+        //name
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter author's full name: ");
+        System.out.print("Enter book name: ");
         String name = sc.nextLine();
+        //author
+        List<Author> listOfBookAuthors = new ArrayList<>();
+
+        boolean stayInLoop = true;
+        while (stayInLoop){
+
+            printListsAuthorsAndBookAuthors(listOfBookAuthors);
+            printChoicesAddBookAuhor();
+            char choice = makeAChoiceBookAuthor();
+
+            switch (choice){
+
+                case '1':
+                    listOfBookAuthors.add(addAuthor());
+                    break;
+                case '3':
+                    if (listOfBookAuthors.isEmpty()){
+                        System.out.println("Your book must have an author. Add an author for your book. If you don't want to create the book anymore press 4");
+                    }
+                    else stayInLoop = false;
+                    break;
+                case '4':
+                    listOfBookAuthors.removeAll(authors);
+                    stayInLoop=false;
+                    break;
+            }
+
+        }
+
+        if (listOfBookAuthors.isEmpty()){
+            System.out.println("You didnt created any book.");
+        }
+        else {
+            System.out.print("Input the number of pages for this book: ");
+
+            while (!sc.hasNext("^((?!(0))[0-9])$+")){
+                System.out.println("Input only positive integers please: ");
+                sc.next();
+            }
+            int numberOfPages = Integer.parseInt(sc.nextLine());
+
+            System.out.println("Input the rating of this book: ");
+
+            while (!sc.hasNext("\\.\\d+")){
+                System.out.println("Input only positive numbers: ");
+                sc.next();
+            }
+            double rating = Double.parseDouble(sc.nextLine());
+
+            books.add(new Book(name,numberOfPages,rating,listOfBookAuthors));
+
+            numberOfBooks++;
+        }
+
+
     }
 
-    public char makeAChoice(){
+    public char makeAChoiceMain(){
 
         Scanner sc = new Scanner(System.in);
         String str;
@@ -92,6 +147,22 @@ public class Library {
 
         } while (!isChoiceValid(str));
         return str.charAt(0);
+
+    }
+
+    public char makeAChoiceBookAuthor(){
+
+        Scanner sc = new Scanner(System.in);
+
+        while (!sc.hasNext("[1234]")){
+            System.out.println("Choose 1,2,3 or 4: ");
+            sc.next();
+        }
+        String choice = sc.nextLine();
+
+        System.out.println(choice);
+
+        return '1';
 
     }
 
@@ -172,22 +243,27 @@ public class Library {
 
         System.out.println();
         System.out.println("Current author list of your book");
-
-        System.out.println();
         for (Author author : listOfBookAuthors
         ) {
             System.out.println(author);
         }
 
-        System.out.println("Available authors");
-
         System.out.println();
 
+        System.out.println("Available authors");
         for (Author author : this.authors
              ) {
             System.out.println(author);
         }
         System.out.println();
+    }
+    public void printChoicesAddBookAuhor(){
+        System.out.println("1. Create author for your book");
+        System.out.println("2. Add author to your book from existing authors");
+        System.out.println("3. Finish adding authors");
+        System.out.println("4. Cancel creating the book");
+        System.out.println();
+        System.out.print("Insert your option: ");
     }
 
 }

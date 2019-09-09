@@ -1,11 +1,13 @@
+import java.util.List;
+
 public class Book {
 
     private String name;
-    private Author[] authors;
+    private List<Author> authors;
     private int numberOfPages;
     private double rating;
 
-    public Book(String name, int numberOfPages, double rating, Author... authors) {
+    public Book(String name, int numberOfPages, double rating, List<Author> authors) {
         this.name = name;
         this.authors = authors;
         this.numberOfPages = numberOfPages;
@@ -16,7 +18,7 @@ public class Book {
         return name;
     }
 
-    public Author[] getAuthors() {
+    public List<Author> getAuthors() {
         return authors;
     }
 
