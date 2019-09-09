@@ -5,7 +5,7 @@ public class Author {
     private char gender;
     private String phoneNumber;
 
-    public Author(String name,String email,char gender, String phoneNumber){
+    public Author(String name, String email, char gender, String phoneNumber) {
 
         this.name = name;
         this.email = email;
@@ -43,12 +43,12 @@ public class Author {
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return this.phoneNumber;
     }
 
     @Override
     public String toString() {
-        return "Author [name = " + name + ", email = " + email + ", gender = " + gender + ", Phone Number = " + phoneNumber + "]";
+        return "Author [name = " + this.name + ", email = " + this.email + ", gender = " + this.gender + ", Phone Number = " + this.phoneNumber + "]";
     }
 
 }
