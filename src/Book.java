@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Book {
@@ -32,11 +33,13 @@ public class Book {
         String autori = result.toString();
         return autori;
     }
-    public String getAuthorEmail(Author author){
-        return author.getEmail();
-    }
-    public char getAuthorGender(Author author){
-        return author.getGender();
+    public List<String> getAuthorsEmail(){
+        List<String> emails = new ArrayList<>();
+        for (Author author1:authors
+             ) {
+            emails.add(author1.getEmail());
+        }
+        return emails;
     }
 
     @Override

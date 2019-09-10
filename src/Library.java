@@ -11,6 +11,22 @@ public class Library {
     private List<Book> books;
     private List<Author> authors;
 
+//    public void addTenAuthors(){
+//        authors.add(new Author("William Shakespeare","william_shakespeare@gmail.com",'m',"004343454352462"));
+//        authors.add(new Author("Charles Dickens","charlesdickens@gmail.com",'m',"004143453222462"));
+//        authors.add(new Author("Jane Austen","janeausten@yahoo.com",'f',"001186575432"));
+//        authors.add(new Author("F. Scott Fitzgerald","f_scott_fitzgerald@gmail.com",'m',"0021321765322"));
+//        authors.add(new Author("Virginia Woolf","virginiawoolf@gmail.com",'f',"00386435400"));
+//        authors.add(new Author("Franz Kafka","franzkafka@yahoo.com",'m',"004726452886"));
+//        authors.add(new Author("Joanne Rowling","j_k_rowling@yahoo.com",'f',"00428500456345"));
+//        authors.add(new Author("George Orwell","georgeorwell@yahoo.com",'m',"0013643530678"));
+//        authors.add(new Author("William Faulkner","william_faulkner@gmail.com",'m',"00519996747732"));
+//        authors.add(new Author("George Eliot","george_eliot@gmail.com",'f',"001565567477960"));
+//    }
+
+
+
+
     private int numberOfBooks = 0;
     private int numberOfAuthors = 0;
 
@@ -20,6 +36,35 @@ public class Library {
         this.books = new ArrayList<>();
         this.authors  = new ArrayList<>();
 
+    }
+
+
+    public Author addAuthor(Author author){
+        int countEqual = 0;
+        for (Author writer:authors
+             ) {
+            if (writer.getEmail().equals(author.getEmail())){
+                System.out.println("The author already exists. It won't be added to the list.");
+                countEqual++;
+            }
+        }
+        if (countEqual==0){
+            authors.add(author);}
+        numberOfAuthors++;
+        return author;
+        }
+
+
+    public void addBook(String name, int pages, double rating,Author... authors){
+        List<Author> authorsForBook = new ArrayList<>();
+        for (Author aut:authors
+             ) {
+            if (aut!=null)authorsForBook.add(aut);
+        }
+        if (authorsForBook.size()>0){
+            books.add(new Book(name,pages,rating,authorsForBook));
+            numberOfBooks++;
+        }
     }
 
     public Author addAuthor(){
@@ -233,10 +278,27 @@ public class Library {
                 if (!distinctValuesAndInRange(indexes)) {
                 }
                 else {
+
                     for (int index:indexes
                     ) {
-                        authors.remove(index-1);
-                        numberOfAuthors--;
+                        for (Book book:books
+                             ) {
+                            for (String str:book.getAuthorsEmail()
+                                 ) {
+                                if (str.equals(authors.get(index-1).getEmail())){
+                                    books.remove(book);
+                                    authors.remove(index-1);
+                                    numberOfAuthors--;
+                                    numberOfBooks--;
+                                }
+                                else {
+                                    authors.remove(index-1);
+                                    numberOfAuthors--;
+                                }
+                            }
+                        }
+
+
                     }
                     stayInLoop = false;
                 }
@@ -263,14 +325,14 @@ public class Library {
 
     public void printChoices(){
 
-        System.out.println("a) Adauga autori");
-        System.out.println("b) Adauga carti cu autori existenti deja in memoria(array/arraylist)");
-        System.out.println("c) Sterge autori");
-        System.out.println("d) sterge carti");
-        System.out.println("e) sa cautam carti dupa autori");
-        System.out.println("f) sa cautam cartea cea mai bine cotata(cel mai mare rating) a unui autor.");
-        System.out.println("g) list authors");
-        System.out.println("h) list books");
+        System.out.println("a) Add author");
+        System.out.println("b) Add book");
+        System.out.println("c) Delete authors");
+        System.out.println("d) Delete books");
+        System.out.println("e) Search authors");
+        System.out.println("f) Search best book of an author");
+        System.out.println("g) List authors");
+        System.out.println("h) List books");
         System.out.println();
         System.out.println("q) exit the program");
         System.out.println();
