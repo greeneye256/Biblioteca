@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +9,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+
 
 
         Library library = new Library("Library of Cluj-Napoca");
@@ -29,6 +33,11 @@ public class Main {
                     break;
                 case 'b':
                     library.addBook();
+                    break;
+
+                case 'd':
+                    library.deleteAuthors();
+                    break;
                 case 'g':
                     library.listAuthors();
                     stayInLoop = continueProgram();
@@ -46,7 +55,7 @@ public class Main {
 
     public static boolean continueProgram(){
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter 'q' to exit program or anything else to continue: ");
+        System.out.print("Enter 'q' to exit program or something else to continue: ");
         String check = scanner.nextLine();
         return (!check.equals("q"));
 
