@@ -23,6 +23,8 @@ public class Book {
         return authors;
     }
 
+    //not necesary
+
     public String getAuthorsName(){
         StringBuilder result = new StringBuilder();
         result.append("*");
@@ -33,6 +35,7 @@ public class Book {
         String autori = result.toString();
         return autori;
     }
+
     public List<String> getAuthorsEmail(){
         List<String> emails = new ArrayList<>();
         for (Author author1:authors

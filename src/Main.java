@@ -1,9 +1,3 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -44,20 +38,20 @@ public class Main {
         library.addBook("Tiny Pretty Things",240,4.2,sona,dhonielle);
         library.addBook("De Kooning: An American Master",230,3.7,stevens,swan);
 
-        library.addAuthor(shakespeare);
-        library.addAuthor(dickens);
-        library.addAuthor(austen);
-        library.addAuthor(scott);
-        library.addAuthor(virginia);
-        library.addAuthor(kafka);
-        library.addAuthor(rowling);
-        library.addAuthor(orwell);
-        library.addAuthor(faulkner);
-        library.addAuthor(eliot);
-        library.addAuthor(sona);
-        library.addAuthor(dhonielle);
-        library.addAuthor(stevens);
-        library.addAuthor(swan);
+        library.addAuthorToAuthors(shakespeare);
+        library.addAuthorToAuthors(dickens);
+        library.addAuthorToAuthors(austen);
+        library.addAuthorToAuthors(scott);
+        library.addAuthorToAuthors(virginia);
+        library.addAuthorToAuthors(kafka);
+        library.addAuthorToAuthors(rowling);
+        library.addAuthorToAuthors(orwell);
+        library.addAuthorToAuthors(faulkner);
+        library.addAuthorToAuthors(eliot);
+        library.addAuthorToAuthors(sona);
+        library.addAuthorToAuthors(dhonielle);
+        library.addAuthorToAuthors(stevens);
+        library.addAuthorToAuthors(swan);
 
 
 
@@ -73,7 +67,7 @@ public class Main {
 
             switch (choice){
                 case 'a':
-                    library.addAuthor();
+                    library.createAuthor();
                     System.out.println("");
                     stayInLoop = continueProgram();
 

@@ -1,9 +1,11 @@
 public class Author {
 
+    private int Id;
     private String name;
     private String email;
     private char gender;
     private String phoneNumber;
+
 
     public Author(String name, String email, char gender, String phoneNumber) {
 
@@ -12,6 +14,14 @@ public class Author {
         this.gender = gender;
         this.phoneNumber = phoneNumber;
 
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public int getId() {
+        return Id;
     }
 
     public void setEmail(String email) {
