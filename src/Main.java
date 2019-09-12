@@ -28,18 +28,18 @@ public class Main {
 
 
 
-        library.addBook("Romeo and Julliet",342,4.7,shakespeare);
-        library.addBook("Great Expectations",432,4.5,dickens);
-        library.addBook("Sense and Sensibility",277,4.2,austen);
-        library.addBook("The Great Gatsby",215,4.4,scott);
-        library.addBook("Mrs Dalloway",218,4.5,virginia);
-        library.addBook("Der Process",144,4.2,kafka);
-        library.addBook("Harry Potter",455,4.9,rowling);
-        library.addBook("Light in August",83,3.7,faulkner);
-        library.addBook("Animal Farm",188,4.5,orwell);
-        library.addBook("The Mill on the Floss",842,3.2,eliot);
-        library.addBook("Tiny Pretty Things",240,4.2,sona,dhonielle);
-        library.addBook("De Kooning: An American Master",230,3.7,stevens,swan);
+        library.createBook("Romeo and Julliet",342,4.7,shakespeare);
+        library.createBook("Great Expectations",432,4.5,dickens);
+        library.createBook("Sense and Sensibility",277,4.2,austen);
+        library.createBook("The Great Gatsby",215,4.4,scott);
+        library.createBook("Mrs Dalloway",218,4.5,virginia);
+        library.createBook("Der Process",144,4.2,kafka);
+        library.createBook("Harry Potter",455,4.9,rowling);
+        library.createBook("Light in August",83,3.7,faulkner);
+        library.createBook("Animal Farm",188,4.5,orwell);
+        library.createBook("The Mill on the Floss",842,3.2,eliot);
+        library.createBook("Tiny Pretty Things",240,4.2,sona,dhonielle);
+        library.createBook("De Kooning: An American Master",230,3.7,stevens,swan);
 
         library.addAuthorToAuthors(shakespeare);
         library.addAuthorToAuthors(dickens);
@@ -77,11 +77,18 @@ public class Main {
 
                     break;
                 case 'b':
-                    library.addBook();
+                    library.createBook();
                     break;
 
                 case 'c':
                     library.deleteAuthors();
+                    break;
+                case 'd':
+                    library.deleteBooks();
+                    break;
+                case 'e':
+                    break;
+                case 'f':
                     break;
                 case 'g':
                     library.listAuthors();

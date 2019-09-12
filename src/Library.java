@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Library {
 
@@ -113,7 +111,7 @@ public class Library {
         }
     }
 
-    public void addBook() {
+    public void createBook() {
         //name
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter book name: ");
@@ -225,82 +223,180 @@ public class Library {
         books.add(newBook);
     }
 
-    public void addBook(String name, int pages, double rating, Author... authors) {
-        List<Author> authorsForBook = new ArrayList<>();
-        for (Author aut : authors
-        ) {
-            if (aut != null) authorsForBook.add(aut);
+    public void createBook(String name, int pages, double rating, Author... authors){
+        List<Author> listOfAuthorsForBook = new ArrayList<>();
+        for (Author author:authors
+             ) {
+            listOfAuthorsForBook.add(author);
         }
-        if (authorsForBook.size() > 0) {
-            books.add(new Book(name, pages, rating, authorsForBook));
-        }
+        books.add(new Book(name,pages,rating,listOfAuthorsForBook));
     }
-
-    public char makeAChoiceBookAuthor() {
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println("Choose 1,2,3 or 4: ");
-        String choice = sc.nextLine();
-
-        while (!choice.matches("[1234]")) {
-            System.out.print("You entered a wrong value. Choose 1,2,3 or 4: ");
-            choice = sc.nextLine();
-        }
-        return choice.charAt(0);
-
-    }
-
 
     public void deleteAuthors() {
 
 
-        listAuthors();
+        boolean authorsAreDeleted = false;
 
-        Scanner sc = new Scanner(System.in);
+        List<Author> listOfAuthorsToBeDeleted = new ArrayList<>();
+        List<Book> listOfBooksToBeDeleted = new ArrayList<>();
 
-        boolean stayInLoop = true;
+        while (!authorsAreDeleted) {
 
-        String choice;
-        String[] values;
-        int[] indexes;
+            Scanner sc = new Scanner(System.in);
 
-        while (stayInLoop) {
-            System.out.print("Choose the indexes of the authors you want to delete separated with comma (ex. 1,2,3,5,9) or 0 for cancel: ");
-            choice = sc.nextLine();
-            if (choice.equals("0")) break;
-            if (choice.matches("^\\s*[1-9]\\d*(?:\\s*,\\s*[1-9]\\d*)*$")) {
-                values = choice.split(",");
-                indexes = new int[values.length];
-                for (int i = 0; i < values.length; i++) {
-                    indexes[i] = Integer.parseInt(values[i]);
+            System.out.println();
+            System.out.println("List of authors");
+
+            listAuthors();
+
+            System.out.print("Choose an author or more by id separated with comma to delete. ");
+
+            String choice = sc.nextLine();
+
+            while (!choice.matches("^\\s*[1-9]\\d*(?:\\s*,\\s*[1-9]\\d*)*$")) {
+                System.out.print("Enter valid numbers(Id): ");
+                choice = sc.nextLine();
+            }
+
+            List<Integer> ids = new ArrayList<>();
+            for (String id : choice.split("\\s*,\\s*")
+            ) {
+                ids.add(Integer.parseInt(id));
+            }
+
+            for (Author author : authors
+            ) {
+                if (ids.contains(author.getId())) {
+                    listOfAuthorsToBeDeleted.add(author);
                 }
-                if (!distinctValuesAndInRange(indexes)) {
-                } else {
-
-                    for (int index : indexes
-                    ) {
-                        for (Book book : books
-                        ) {
-                            for (String str : book.getAuthorsEmail()
-                            ) {
-                                if (str.equals(authors.get(index - 1).getEmail())) {
-                                    books.remove(book);
-                                    authors.remove(index - 1);
-                                } else {
-                                    authors.remove(index - 1);
-                                }
-                            }
-                        }
-
-
+            }
+            for (Book book:books
+                 ) {
+                for (Author author:book.getAuthors()
+                     ) {
+                    if (ids.contains(author.getId())){
+                        listOfBooksToBeDeleted.add(book);
+                        break;
                     }
-                    stayInLoop = false;
                 }
+            }
 
-            } else System.out.print("You have to enter only numbers separated by comma!");
+            if (listOfAuthorsToBeDeleted.size() == 0) {
+                System.out.println("Your numbers did't match any Id so no author wiil be deleted.");
+                return;
+            }
+
+            System.out.println();
+            for (Author author : listOfAuthorsToBeDeleted
+            ) {
+                System.out.println(author);
+            }
+            System.out.println();
+            for (Book book:listOfBooksToBeDeleted
+                 ) {
+                System.out.println(book);
+            }
+            System.out.println();
+            System.out.println("Notice that if you delete an author all books written by that author will also be deteted.");
+            System.out.println();
+            System.out.print("Confirm authors that will be deleted from your library. Type 'y' for yes or 'n' for no. : ");
+            String confirmList = sc.nextLine();
+
+            while (!confirmList.matches("[ynYN]")) {
+
+                System.out.print("Enter a valid letter. Confirm authors that will be deleted from your library. Type 'y' for yes or 'n' for no. : ");
+                confirmList = sc.nextLine();
+
+            }
+
+            if (confirmList.matches("[nN]")){
+                listOfAuthorsToBeDeleted.clear();
+                authorsAreDeleted = false;
+            }else authorsAreDeleted = true;
+
         }
 
+        for (Author author:listOfAuthorsToBeDeleted
+             ) {
+            authors.remove(author);
+        }
+        for (Book book :listOfBooksToBeDeleted
+             ) {
+            books.remove(book);
+        }
+    }
+
+    public void deleteBooks() {
+
+
+        boolean booksAreDeleted = false;
+
+        List<Book> listOfBooksToBeDeleted = new ArrayList<>();
+
+        while (!booksAreDeleted) {
+
+            Scanner sc = new Scanner(System.in);
+
+            System.out.println();
+            System.out.println("List of books");
+
+            listBooks();
+
+            System.out.print("Choose a book or more, by id, separated with comma, to delete. ");
+
+            String choice = sc.nextLine();
+
+            while (!choice.matches("^\\s*[1-9]\\d*(?:\\s*,\\s*[1-9]\\d*)*$")) {
+                System.out.print("Enter valid numbers(Id): ");
+                choice = sc.nextLine();
+            }
+
+            List<Integer> ids = new ArrayList<>();
+            for (String id : choice.split("\\s*,\\s*")
+            ) {
+                ids.add(Integer.parseInt(id));
+            }
+
+            for (Book book : books
+            ) {
+                if (ids.contains(book.getId())) {
+                    listOfBooksToBeDeleted.add(book);
+                }
+            }
+
+            if (listOfBooksToBeDeleted.size() == 0) {
+                System.out.println("Your numbers did't match any Id so no book wiil be deleted.");
+                return;
+            }
+
+            System.out.println();
+            for (Book book : listOfBooksToBeDeleted
+            ) {
+                System.out.println(book);
+            }
+            System.out.println();
+
+            System.out.print("Confirm if you want this books to be deleted from your library. Type 'y' for yes or 'n' for no. : ");
+            String confirmList = sc.nextLine();
+
+            while (!confirmList.matches("[ynYN]")) {
+
+                System.out.print("Enter a valid letter. Confirm if you want this books to be deleted from your library. Type 'y' for yes or 'n' for no. : ");
+                confirmList = sc.nextLine();
+
+            }
+
+            if (confirmList.matches("[nN]")){
+                listOfBooksToBeDeleted.clear();
+                booksAreDeleted = false;
+            }else booksAreDeleted = true;
+
+        }
+
+        for (Book book:listOfBooksToBeDeleted
+        ) {
+            authors.remove(book);
+        }
 
     }
 
@@ -322,32 +418,6 @@ public class Library {
         System.out.println();
     }
 
-    public void printChoicesAddBookAuthor() {
-        System.out.println("1. Create author for your book");
-        System.out.println("2. Add author to your book from existing authors");
-        System.out.println("3. Finish adding authors");
-        System.out.println("4. Cancel (without creating the book)");
-        System.out.println();
-        System.out.print("Insert your option: ");
-    }
-
-    public boolean distinctValuesAndInRange(int[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] > authors.size()) {
-                System.out.print("One of your index is grater than maximum index.");
-                return false;
-            }
-        }
-        for (int i = 0; i < arr.length - 1; i++) {
-            for (int j = i + 1; j < arr.length; j++) {
-                if (arr[i] == arr[j]) {
-                    System.out.println("You can't put two or more numbers with the same value!");
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
 
 }
 
