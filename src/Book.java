@@ -10,7 +10,7 @@ public class Book {
     private int id;
     private static int bookCount = 1;
 
-    public Book(String name, int numberOfPages, double rating, List<Author> authors) {
+    Book(String name, int numberOfPages, double rating, List<Author> authors) {
         this.name = name;
         this.authors = authors;
         this.numberOfPages = numberOfPages;
@@ -18,32 +18,31 @@ public class Book {
         id = bookCount++;
     }
 
-    public int getId() {
+    int getId() {
         return id;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public List<Author> getAuthors() {
+    List<Author> getAuthors() {
         return authors;
     }
 
-    //not necesary
-
-    public String getAuthorsName(){
-        StringBuilder result = new StringBuilder();
-        result.append("*");
-        for (Author author:authors
-        ) {
-            result.append(author.getName() + " * ");
-        }
-        String autori = result.toString();
-        return autori;
+    double getRating() {
+        return rating;
     }
 
-    public List<String> getAuthorsEmail(){
+    void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    void setName(String name) {
+        this.name = name;
+    }
+
+    List<String> getAuthorsEmail(){
         List<String> emails = new ArrayList<>();
         for (Author author1:authors
              ) {

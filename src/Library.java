@@ -1,18 +1,15 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class Library {
+class Library {
 
     private String nameOfLibrary;
     private List<Book> books;
     private List<Author> authors;
 
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public Library(String nameOfLibrary) {
+    Library(String nameOfLibrary) {
 
         this.nameOfLibrary = nameOfLibrary;
         this.books = new ArrayList<>();
@@ -20,7 +17,7 @@ public class Library {
 
     }
 
-    public void printLibrary() {
+    void printLibrary() {
 
         System.out.println();
         System.out.println(this.nameOfLibrary.toUpperCase());
@@ -30,7 +27,7 @@ public class Library {
 
     }
 
-    public void listBooks() {
+    void listBooks() {
 
         for (Book book : books
         ) {
@@ -40,7 +37,7 @@ public class Library {
 
     }
 
-    public void listAuthors() {
+    void listAuthors() {
 
         System.out.println();
         for (Author author : authors
@@ -51,7 +48,7 @@ public class Library {
 
     }
 
-    public Author createAuthor() {
+    void createAuthor() {
 
         //name
 
@@ -65,7 +62,7 @@ public class Library {
 
         String email = sc.nextLine();
 
-        while (!email.matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$")) {
+        while (!email.matches("^([\\w-.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$")) {
             System.out.println("Your email is not valid, please enter a valid email: ");
             email = sc.nextLine();
         }
@@ -91,13 +88,9 @@ public class Library {
         }
         Author author = new Author(name, email, gender, phoneNumber);
         authors.add(author);
-        return author;
-
     }
 
-    // for validating a new author if it doesn't already exists in library. not implemented
-
-    public void addAuthorToAuthors(Author author) {
+    void addAuthorToAuthors(Author author) {
         int countEqual = 0;
         for (Author writer : authors
         ) {
@@ -111,7 +104,7 @@ public class Library {
         }
     }
 
-    public void createBook() {
+    void createBook() {
         //name
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter book name: ");
@@ -198,7 +191,7 @@ public class Library {
 
         System.out.print("Input the rating of this book: ");
 
-        boolean isRatingValid = false;
+        boolean isRatingValid;
 
         do {
             try {
@@ -223,16 +216,12 @@ public class Library {
         books.add(newBook);
     }
 
-    public void createBook(String name, int pages, double rating, Author... authors){
-        List<Author> listOfAuthorsForBook = new ArrayList<>();
-        for (Author author:authors
-             ) {
-            listOfAuthorsForBook.add(author);
-        }
+    void createBook(String name, int pages, double rating, Author... authors){
+        List<Author> listOfAuthorsForBook = new ArrayList<>(Arrays.asList(authors));
         books.add(new Book(name,pages,rating,listOfAuthorsForBook));
     }
 
-    public void deleteAuthors() {
+    void deleteAuthors() {
 
 
         boolean authorsAreDeleted = false;
@@ -326,7 +315,7 @@ public class Library {
         }
     }
 
-    public void deleteBooks() {
+    void deleteBooks() {
 
 
         boolean booksAreDeleted = false;
@@ -342,7 +331,7 @@ public class Library {
 
             listBooks();
 
-            System.out.print("Choose a book or more, by id, separated with comma, to delete. ");
+            System.out.print("Choose a book or more, by id, separated with comma, to delete: ");
 
             String choice = sc.nextLine();
 
@@ -365,7 +354,7 @@ public class Library {
             }
 
             if (listOfBooksToBeDeleted.size() == 0) {
-                System.out.println("Your numbers did't match any Id so no book wiil be deleted.");
+                System.out.println("Your numbers did't match any Id so no book will be deleted.");
                 return;
             }
 
@@ -395,29 +384,106 @@ public class Library {
 
         for (Book book:listOfBooksToBeDeleted
         ) {
-            authors.remove(book);
+            books.remove(book);
         }
 
     }
 
-    public void printListsAuthorsAndBookAuthors(List<Author> listOfBookAuthors) {
-
-        System.out.println();
-        System.out.println("Available authors");
-        for (Author author : this.authors
-        ) {
-            System.out.println(author);
+    void printBooksFromAuthor(){
+        Scanner sc = new Scanner(System.in);
+        listAuthors();
+        int booksFound = 0;
+        System.out.print("Please enter the Id from author to search his books: ");
+        String authorId = sc.nextLine();
+        while (!authorId.matches("^[1-9]\\d*$")){
+            System.out.print("Wrong input! Please enter the Id from author to search his books: ");
+            authorId = sc.nextLine();
         }
-        System.out.println();
-
-        System.out.println("Current authors list of your book");
-        for (Author author : listOfBookAuthors
-        ) {
-            System.out.println(author);
+        int idToSearch = Integer.parseInt(authorId);
+        boolean authorExists = false;
+        for (Author author:authors
+             ) {
+            if (idToSearch == author.getId()){
+                authorExists = true;
+                break;
+            }
         }
-        System.out.println();
+        if (!authorExists){
+            System.out.println("No author has the Id you have entered!");
+            System.out.println();
+            return;
+        }
+        for (Book book:books
+             ) {
+            for (Author author:book.getAuthors()
+                 ) {
+                if (author.getId()==idToSearch){
+                    booksFound++;
+                    System.out.println(book);
+                }
+            }
+        }
+        if (booksFound == 0){
+            System.out.println("The library doesn't have books from the author you have entered");
+        }
+
     }
 
+    void printBestBookFromAuthor(){
+        Scanner sc = new Scanner(System.in);
+        listAuthors();
+        int booksFound = 0;
+        System.out.print("Please enter the Id from author to search for his best book: ");
+        String authorId = sc.nextLine();
+        while (!authorId.matches("^[1-9]\\d*$")){
+            System.out.print("Wrong input! Please enter the Id from author to search his books: ");
+            authorId = sc.nextLine();
+        }
+        int idToSearch = Integer.parseInt(authorId);
+        boolean authorExists = false;
+        for (Author author:authors
+        ) {
+            if (idToSearch == author.getId()){
+                authorExists = true;
+                break;
+            }
+        }
+        if (!authorExists){
+            System.out.println("No author has the Id you have entered!");
+            System.out.println();
+            return;
+        }
+
+        double maxValue = 0.0d;
+        List<Book> booksWithMaxRating = new ArrayList<>();
+
+        for (Book book:books
+        ) {
+            for (Author author:book.getAuthors()
+            ) {
+                if (author.getId()==idToSearch){
+                    if (book.getRating() == maxValue){
+                        booksWithMaxRating.add(book);
+                    }
+                    if (book.getRating()>maxValue){
+                        booksWithMaxRating.clear();
+                        booksWithMaxRating.add(book);
+                        maxValue = book.getRating();
+                    }
+                    booksFound++;
+                }
+            }
+        }
+        if (booksFound == 0){
+            System.out.println("The library doesn't have books from the author you have entered");
+        }
+
+        for (Book book:booksWithMaxRating
+             ) {
+            System.out.println(book);
+        }
+
+    }
 
 }
 

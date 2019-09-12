@@ -8,7 +8,7 @@ public class Author {
     private static int authorCount = 1;
 
 
-    public Author(String name, String email, char gender, String phoneNumber) {
+    Author(String name, String email, char gender, String phoneNumber) {
 
         this.name = name;
         this.email = email;
@@ -17,39 +17,39 @@ public class Author {
         this.id = authorCount++;
     }
 
-    public int getId() {
+    int getId() {
         return id;
     }
 
-    public void setEmail(String email) {
+    void setEmail(String email) {
         this.email = email;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public void setGender(char gender) {
+    void setGender(char gender) {
         this.gender = gender;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public char getGender() {
+    char getGender() {
         return gender;
     }
 
-    public String getEmail() {
+    String getEmail() {
         return email;
     }
 
-    public String getPhoneNumber() {
+    String getPhoneNumber() {
         return this.phoneNumber;
     }
 

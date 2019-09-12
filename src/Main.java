@@ -9,11 +9,8 @@ public class Main {
         Library library = new Library("Library of Cluj-Napoca");
 
         Author shakespeare = new Author("William Shakespeare","william_shakespeare@gmail.com",'m',"004343454352462");
-
         Author dickens = new Author("Charles Dickens","charlesdickens@gmail.com",'m',"004143453222462");
-
         Author austen = new Author("Jane Austen","janeausten@yahoo.com",'f',"001186575432");
-
         Author scott = new Author("F. Scott Fitzgerald","f_scott_fitzgerald@gmail.com",'m',"0021321765322");
         Author virginia = new Author("Virginia Woolf","virginiawoolf@gmail.com",'f',"00386435400");
         Author kafka = new Author("Franz Kafka","franzkafka@yahoo.com",'m',"004726452886");
@@ -29,7 +26,13 @@ public class Main {
 
 
         library.createBook("Romeo and Julliet",342,4.7,shakespeare);
+        library.createBook("Hamlet",310,4.2,shakespeare);
+        library.createBook("All's Well That Ends Well",224,3.8,shakespeare);
+        library.createBook("Measure for Measure",413,4.7,shakespeare);
         library.createBook("Great Expectations",432,4.5,dickens);
+        library.createBook("A Christmas Carol",154,3.6,dickens);
+        library.createBook("Oliver Twist",278,4.0,dickens);
+        library.createBook("David Copperfield",778,4.3,dickens);
         library.createBook("Sense and Sensibility",277,4.2,austen);
         library.createBook("The Great Gatsby",215,4.4,scott);
         library.createBook("Mrs Dalloway",218,4.5,virginia);
@@ -71,24 +74,29 @@ public class Main {
             switch (choice){
                 case 'a':
                     library.createAuthor();
-                    System.out.println("");
+                    System.out.println();
                     stayInLoop = continueProgram();
-
-
                     break;
                 case 'b':
                     library.createBook();
+                    stayInLoop = continueProgram();
                     break;
 
                 case 'c':
                     library.deleteAuthors();
+                    stayInLoop = continueProgram();
                     break;
                 case 'd':
                     library.deleteBooks();
+                    stayInLoop = continueProgram();
                     break;
                 case 'e':
+                    library.printBooksFromAuthor();
+                    stayInLoop = continueProgram();
                     break;
                 case 'f':
+                    library.printBestBookFromAuthor();
+                    stayInLoop = continueProgram();
                     break;
                 case 'g':
                     library.listAuthors();
@@ -105,13 +113,13 @@ public class Main {
         }
     }
 
-    public static char makeAChoiceMain(){
+    private static char makeAChoiceMain(){
 
         System.out.println("a) Add author");
         System.out.println("b) Add book");
         System.out.println("c) Delete authors");
         System.out.println("d) Delete books");
-        System.out.println("e) Search authors");
+        System.out.println("e) Search books from author");
         System.out.println("f) Search best book of an author");
         System.out.println("g) List authors");
         System.out.println("h) List books");
@@ -133,7 +141,7 @@ public class Main {
 
     }
 
-    public static boolean continueProgram(){
+    private static boolean continueProgram(){
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter 'q' to exit program or something else to continue: ");
         String check = scanner.nextLine();
