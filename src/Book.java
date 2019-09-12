@@ -7,12 +7,19 @@ public class Book {
     private List<Author> authors;
     private int numberOfPages;
     private double rating;
+    private int id;
+    private static int bookCount = 1;
 
     public Book(String name, int numberOfPages, double rating, List<Author> authors) {
         this.name = name;
         this.authors = authors;
         this.numberOfPages = numberOfPages;
         this.rating = rating;
+        id = bookCount++;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -48,7 +55,7 @@ public class Book {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("Book [name = " + name + ", authors = ");
+        result.append("Book ID = " + id + " [name = " + name + ", authors = ");
         for (Author author:authors
         ) {
             result.append(author.toString() + ", ");

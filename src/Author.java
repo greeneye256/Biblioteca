@@ -1,10 +1,11 @@
 public class Author {
 
-    private int Id;
+    private int id;
     private String name;
     private String email;
     private char gender;
     private String phoneNumber;
+    private static int authorCount = 1;
 
 
     public Author(String name, String email, char gender, String phoneNumber) {
@@ -13,15 +14,12 @@ public class Author {
         this.email = email;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
+        this.id = authorCount++;
 
-    }
-
-    public void setId(int id) {
-        Id = id;
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setEmail(String email) {
@@ -58,7 +56,7 @@ public class Author {
 
     @Override
     public String toString() {
-        return "Author [name = " + this.name + ", email = " + this.email + ", gender = " + this.gender + ", Phone Number = " + this.phoneNumber + "]";
+        return "Author id: " + id + " [name = " + this.name + ", email = " + this.email + ", gender = " + this.gender + ", Phone Number = " + this.phoneNumber + "]";
     }
 
 }

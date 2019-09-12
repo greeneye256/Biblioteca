@@ -9,8 +9,11 @@ public class Main {
         Library library = new Library("Library of Cluj-Napoca");
 
         Author shakespeare = new Author("William Shakespeare","william_shakespeare@gmail.com",'m',"004343454352462");
+
         Author dickens = new Author("Charles Dickens","charlesdickens@gmail.com",'m',"004143453222462");
+
         Author austen = new Author("Jane Austen","janeausten@yahoo.com",'f',"001186575432");
+
         Author scott = new Author("F. Scott Fitzgerald","f_scott_fitzgerald@gmail.com",'m',"0021321765322");
         Author virginia = new Author("Virginia Woolf","virginiawoolf@gmail.com",'f',"00386435400");
         Author kafka = new Author("Franz Kafka","franzkafka@yahoo.com",'m',"004726452886");

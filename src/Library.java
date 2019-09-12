@@ -9,26 +9,9 @@ public class Library {
     private String nameOfLibrary;
     private List<Book> books;
     private List<Author> authors;
-    private int numberOfBooks;
-    private int numberOfAuthors;
-    private int bookId = 1;
 
-    public int getNumberOfAuthors() {
-        numberOfAuthors = 0;
-        for (Author author:authors
-             ) {
-            numberOfAuthors++;
-        }
-        return numberOfAuthors;
-    }
-
-    public int getNumberOfBooks() {
-        numberOfBooks = 0;
-        for (Book book:books
-             ) {
-            numberOfBooks++;
-        }
-        return numberOfBooks;
+    public List<Book> getBooks() {
+        return books;
     }
 
     public Library(String nameOfLibrary) {
@@ -43,9 +26,9 @@ public class Library {
 
         System.out.println();
         System.out.println(this.nameOfLibrary.toUpperCase());
-        System.out.println("Number of books: " + this.numberOfBooks);
-        System.out.println("Number of authors: " + this.numberOfAuthors);
-        System.out.println("");
+        System.out.println("Number of books: " + books.size());
+        System.out.println("Number of authors: " + authors.size());
+        System.out.println();
 
     }
 
@@ -59,7 +42,7 @@ public class Library {
         System.out.println("f) Search best book of an author");
         System.out.println("g) List authors");
         System.out.println("h) List books");
-        System.out.println("q) exit the program");
+        System.out.println("q) Exit the program");
         System.out.println();
     }
 
@@ -67,7 +50,7 @@ public class Library {
 
         for (Book book:books
         ) {
-            System.out.println((books.indexOf(book) + 1) + ". " +book);
+            System.out.println(book);
         }
         System.out.println();
 
@@ -78,7 +61,7 @@ public class Library {
         System.out.println();
         for (Author author:authors
         ) {
-            System.out.println((authors.indexOf(author) + 1) + ". " + author);
+            System.out.println(author);
         }
         System.out.println();
 
@@ -160,7 +143,6 @@ public class Library {
         }
         if (countEqual==0){
             authors.add(author);}
-        numberOfAuthors++;
         }
 
     public void addBook(){
@@ -251,8 +233,6 @@ public class Library {
 
 
             books.add(new Book(name,numberOfPages,rating,listOfBookAuthors));
-
-            numberOfBooks++;
         }
 
 
@@ -266,15 +246,8 @@ public class Library {
         }
         if (authorsForBook.size()>0){
             books.add(new Book(name,pages,rating,authorsForBook));
-            numberOfBooks++;
         }
     }
-
-
-
-
-
-
 
     public char makeAChoiceBookAuthor(){
 
@@ -329,12 +302,9 @@ public class Library {
                                 if (str.equals(authors.get(index-1).getEmail())){
                                     books.remove(book);
                                     authors.remove(index-1);
-                                    numberOfAuthors--;
-                                    numberOfBooks--;
                                 }
                                 else {
                                     authors.remove(index-1);
-                                    numberOfAuthors--;
                                 }
                             }
                         }
