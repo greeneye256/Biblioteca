@@ -55,12 +55,22 @@ public class Book {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("Book ID = " + id + " [name = " + name + ", authors = ");
+        result.append("Book ID = ");
+        result.append(id);
+        result.append(" [name = ");
+        result.append(name);
+        result.append(", authors = ");
+
         for (Author author:authors
         ) {
-            result.append(author.toString() + ", ");
+            result.append(author.toString());
+            result.append(", ");
         }
-        result.append("number of pages = " + numberOfPages + ", rating = " + rating + "]");
+        result.append("number of pages = ");
+        result.append(numberOfPages);
+        result.append(", rating = ");
+        result.append(rating);
+        result.append("]");
         return result.toString();
     }
 

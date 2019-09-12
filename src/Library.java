@@ -18,11 +18,11 @@ public class Library {
 
         this.nameOfLibrary = nameOfLibrary;
         this.books = new ArrayList<>();
-        this.authors  = new ArrayList<>();
+        this.authors = new ArrayList<>();
 
     }
 
-    public void printLibrary(){
+    public void printLibrary() {
 
         System.out.println();
         System.out.println(this.nameOfLibrary.toUpperCase());
@@ -32,23 +32,9 @@ public class Library {
 
     }
 
-    public void printChoices(){
+    public void listBooks() {
 
-        System.out.println("a) Add author");
-        System.out.println("b) Add book");
-        System.out.println("c) Delete authors");
-        System.out.println("d) Delete books");
-        System.out.println("e) Search authors");
-        System.out.println("f) Search best book of an author");
-        System.out.println("g) List authors");
-        System.out.println("h) List books");
-        System.out.println("q) Exit the program");
-        System.out.println();
-    }
-
-    public void listBooks(){
-
-        for (Book book:books
+        for (Book book : books
         ) {
             System.out.println(book);
         }
@@ -56,32 +42,14 @@ public class Library {
 
     }
 
-    public void listAuthors(){
+    public void listAuthors() {
 
         System.out.println();
-        for (Author author:authors
+        for (Author author : authors
         ) {
             System.out.println(author);
         }
         System.out.println();
-
-    }
-
-    public char makeAChoiceMain(){
-
-        Scanner sc = new Scanner(System.in);
-        String str;
-        printChoices();
-        System.out.print("Input the letter which represents your choice: ");
-        str = sc.nextLine();
-
-        while (!str.matches("[abcdefghq]")){
-
-            System.out.print("You entered a wrong letter! Input the letter which represents your choice: ");
-            str = sc.nextLine();
-
-        }
-        return str.charAt(0);
 
     }
 
@@ -97,15 +65,12 @@ public class Library {
 
         System.out.print("Enter author's email: ");
 
-        String email;
+        String email = sc.nextLine();
 
-        do {
+        while (!email.matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$")) {
+            System.out.println("Your email is not valid, please enter a valid email: ");
             email = sc.nextLine();
         }
-
-        while (!isMailValid(email));
-
-        //gender
 
         System.out.print("Input author's gender (m or f): ");
         String gend;
@@ -126,137 +91,159 @@ public class Library {
             System.out.print("Author's phone number have to contain only digits. Please input the phone number corectly: ");
             phoneNumber = sc.nextLine();
         }
-
         Author author = new Author(name, email, gender, phoneNumber);
+        authors.add(author);
         return author;
+
     }
 
+    // for validating a new author if it doesn't already exists in library. not implemented
 
-    public void addAuthorToAuthors(Author author){
+    public void addAuthorToAuthors(Author author) {
         int countEqual = 0;
-        for (Author writer:authors
-             ) {
-            if (writer.getEmail().equals(author.getEmail())){
+        for (Author writer : authors
+        ) {
+            if (writer.getEmail().equals(author.getEmail())) {
                 System.out.println("The author already exists. It won't be added to the list.");
                 countEqual++;
             }
         }
-        if (countEqual==0){
-            authors.add(author);}
+        if (countEqual == 0) {
+            authors.add(author);
         }
+    }
 
-    public void addBook(){
+    public void addBook() {
         //name
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter book name: ");
         String name = sc.nextLine();
         //author
+
+        boolean authorsAreAdded = false;
+
         List<Author> listOfBookAuthors = new ArrayList<>();
 
-        boolean stayInLoop = true;
-        while (stayInLoop){
+        while (!authorsAreAdded) {
 
-            printListsAuthorsAndBookAuthors(listOfBookAuthors);
-            printChoicesAddBookAuhor();
-            char choice = makeAChoiceBookAuthor();
+            System.out.println();
+            System.out.println("Available authors to add to the book: ");
 
-            switch (choice){
+            listAuthors();
 
-                case '1':
-                    boolean authorExists = false;
-                    Author authorToAdd = createAuthor();
-                    for (Author author:authors
-                         ) {
-                        if (authorToAdd.getEmail().equals(author.getEmail())){
-                            System.out.println("The author is already in the authors list.");
-                            authorExists = true;
-                            break;
-                        }
-                    }
-                    if (authorExists=false){
-                        addAuthorToAuthors(authorToAdd);
-                        listOfBookAuthors.add(authorToAdd);
-                    }
-                    break;
-                case '3':
-                    if (listOfBookAuthors.isEmpty()){
-                        System.out.println("Your book must have an author. Add an author for your book. If you don't want to create the book anymore press 4");
-                    }
-                    else stayInLoop = false;
-                    break;
-                case '4':
-                    listOfBookAuthors.removeAll(authors);
-                    stayInLoop = false;
-                    break;
+            System.out.print("Select authors by ID to add them to the book. You can add multiple authors separated with comma: ");
+
+            String choice = sc.nextLine();
+
+            while (!choice.matches("^\\s*[1-9]\\d*(?:\\s*,\\s*[1-9]\\d*)*$")) {
+                System.out.print("Enter valid numbers(Id): ");
+                choice = sc.nextLine();
             }
 
-        }
-
-        if (listOfBookAuthors.isEmpty()){
-            System.out.println("You didn't created any book.");
-        }
-        else {
-            String strPages;
-            boolean firstTime = true;
-            do {
-
-                if (firstTime){
-                    System.out.print("Input the number of pages for this book: ");
-                    strPages = sc.nextLine();
-                }
-                else {
-                    System.out.print("Only positive integers please. Input the number of pages for this book: ");
-                    strPages = sc.nextLine();
-                }
-                firstTime = false;
+            List<Integer> ids = new ArrayList<>();
+            for (String id : choice.split("\\s*,\\s*")
+            ) {
+                ids.add(Integer.parseInt(id));
             }
-            while (!strPages.matches("^[1-9]\\d*$"));
-            int numberOfPages = Integer.parseInt(strPages);
 
-            double rating;
-            System.out.print("Enter the rating of the book - (between 1 and 5): ");
-            do {
-                try {
-                    rating = sc.nextDouble();
+            for (Author author : authors
+            ) {
+                if (ids.contains(author.getId())) {
+                    listOfBookAuthors.add(author);
                 }
-                catch (Exception e){
-                    System.out.print("Invalid number input! Enter a valid number for rating - (between 1 and 5): ");
-                    rating = 6;
-                    sc.next();
-                }
+            }
 
-                if (rating < 1 || rating > 5) {
-                    System.out.print("Invalid number input! Enter a valid number for rating - (between 1 and 5): ");
-                }
-            } while (rating < 1 || rating >5);
+            if (listOfBookAuthors.size() == 0) {
+                System.out.println("Your numbers did't match any Id so the book is not created.");
+                return;
+            }
 
+            System.out.println();
+            for (Author author : listOfBookAuthors
+            ) {
+                System.out.println(author);
+            }
+            System.out.println();
 
+            System.out.print("Confirm authors that will be added to your book. Type 'y' for yes or 'n' for no. : ");
+            String confirmList = sc.nextLine();
 
-            books.add(new Book(name,numberOfPages,rating,listOfBookAuthors));
+            while (!confirmList.matches("[ynYN]")) {
+
+                System.out.print("Enter a valid letter. Confirm authors that will be added to your book. Type 'y' for yes or 'n' for no.");
+                confirmList = sc.nextLine();
+
+            }
+
+            if (confirmList.matches("[nN]")){
+                listOfBookAuthors.clear();
+                authorsAreAdded = false;
+            }else authorsAreAdded = true;
+
         }
 
+        System.out.print("Input the number of pages for this book: ");
+        String strPages = sc.nextLine();
 
+        while (!strPages.matches("^[1-9]\\d*$")){
+
+            System.out.print("Only positive integers please. Input the number of pages for this book: ");
+            strPages = sc.nextLine();
+
+        }
+
+        int numberOfPages = Integer.parseInt(strPages);
+
+        //rating
+
+        double rating;
+
+        System.out.print("Input the rating of this book: ");
+
+        boolean isRatingValid = false;
+
+        do {
+            try {
+                rating = sc.nextDouble();
+            } catch (Exception e) {
+                rating = 6;
+                sc.next();
+            }
+
+            if (rating < 1 || rating > 5) {
+                System.out.print("Invalid number input! Enter a valid number for rating - (between 1 and 5): ");
+                isRatingValid = false;
+            }
+            else isRatingValid = true;
+
+        } while (!isRatingValid);
+
+        Book newBook = new Book(name, numberOfPages, rating, listOfBookAuthors);
+        System.out.println("This is your new book: ");
+        System.out.println();
+        System.out.println(newBook);
+        books.add(newBook);
     }
 
-    public void addBook(String name, int pages, double rating,Author... authors){
+    public void addBook(String name, int pages, double rating, Author... authors) {
         List<Author> authorsForBook = new ArrayList<>();
-        for (Author aut:authors
-             ) {
-            if (aut!=null)authorsForBook.add(aut);
+        for (Author aut : authors
+        ) {
+            if (aut != null) authorsForBook.add(aut);
         }
-        if (authorsForBook.size()>0){
-            books.add(new Book(name,pages,rating,authorsForBook));
+        if (authorsForBook.size() > 0) {
+            books.add(new Book(name, pages, rating, authorsForBook));
         }
     }
 
-    public char makeAChoiceBookAuthor(){
+    public char makeAChoiceBookAuthor() {
 
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Choose 1,2,3 or 4: ");
         String choice = sc.nextLine();
 
-        while (!choice.matches("[1234]")){
+        while (!choice.matches("[1234]")) {
             System.out.print("You entered a wrong value. Choose 1,2,3 or 4: ");
             choice = sc.nextLine();
         }
@@ -265,8 +252,7 @@ public class Library {
     }
 
 
-
-    public void deleteAuthors(){
+    public void deleteAuthors() {
 
 
         listAuthors();
@@ -279,10 +265,10 @@ public class Library {
         String[] values;
         int[] indexes;
 
-        while (stayInLoop){
+        while (stayInLoop) {
             System.out.print("Choose the indexes of the authors you want to delete separated with comma (ex. 1,2,3,5,9) or 0 for cancel: ");
             choice = sc.nextLine();
-            if (choice.equals("0"))break;
+            if (choice.equals("0")) break;
             if (choice.matches("^\\s*[1-9]\\d*(?:\\s*,\\s*[1-9]\\d*)*$")) {
                 values = choice.split(",");
                 indexes = new int[values.length];
@@ -290,21 +276,19 @@ public class Library {
                     indexes[i] = Integer.parseInt(values[i]);
                 }
                 if (!distinctValuesAndInRange(indexes)) {
-                }
-                else {
+                } else {
 
-                    for (int index:indexes
+                    for (int index : indexes
                     ) {
-                        for (Book book:books
-                             ) {
-                            for (String str:book.getAuthorsEmail()
-                                 ) {
-                                if (str.equals(authors.get(index-1).getEmail())){
+                        for (Book book : books
+                        ) {
+                            for (String str : book.getAuthorsEmail()
+                            ) {
+                                if (str.equals(authors.get(index - 1).getEmail())) {
                                     books.remove(book);
-                                    authors.remove(index-1);
-                                }
-                                else {
-                                    authors.remove(index-1);
+                                    authors.remove(index - 1);
+                                } else {
+                                    authors.remove(index - 1);
                                 }
                             }
                         }
@@ -314,41 +298,18 @@ public class Library {
                     stayInLoop = false;
                 }
 
-            }
-            else System.out.print("You have to enter only numbers separated by comma!");
+            } else System.out.print("You have to enter only numbers separated by comma!");
         }
 
 
     }
 
-
-
-
-
-
-
-
-
-
-    private boolean isMailValid(String str){
-
-        String regex = "^(.+)@(.+)$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(str);
-        if (matcher.matches())return true;
-        else {
-            System.out.print("Your input is not valid. Enter a valid email: ");
-            return false;
-        }
-
-    }
-
-    public void printListsAuthorsAndBookAuthors(List<Author> listOfBookAuthors){
+    public void printListsAuthorsAndBookAuthors(List<Author> listOfBookAuthors) {
 
         System.out.println();
         System.out.println("Available authors");
         for (Author author : this.authors
-             ) {
+        ) {
             System.out.println(author);
         }
         System.out.println();
@@ -360,7 +321,8 @@ public class Library {
         }
         System.out.println();
     }
-    public void printChoicesAddBookAuhor(){
+
+    public void printChoicesAddBookAuthor() {
         System.out.println("1. Create author for your book");
         System.out.println("2. Add author to your book from existing authors");
         System.out.println("3. Finish adding authors");
@@ -368,15 +330,16 @@ public class Library {
         System.out.println();
         System.out.print("Insert your option: ");
     }
-    public boolean distinctValuesAndInRange(int[] arr){
+
+    public boolean distinctValuesAndInRange(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
-            if (arr[i]>authors.size()){
+            if (arr[i] > authors.size()) {
                 System.out.print("One of your index is grater than maximum index.");
                 return false;
             }
         }
-        for (int i = 0; i < arr.length-1; i++) {
-            for (int j = i+1; j < arr.length; j++) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = i + 1; j < arr.length; j++) {
                 if (arr[i] == arr[j]) {
                     System.out.println("You can't put two or more numbers with the same value!");
                     return false;

@@ -66,7 +66,7 @@ public class Main {
         while (stayInLoop){
 
             library.printLibrary();
-            choice = library.makeAChoiceMain();
+            choice = makeAChoiceMain();
 
             switch (choice){
                 case 'a':
@@ -96,6 +96,34 @@ public class Main {
                     break;
             }
         }
+    }
+
+    public static char makeAChoiceMain(){
+
+        System.out.println("a) Add author");
+        System.out.println("b) Add book");
+        System.out.println("c) Delete authors");
+        System.out.println("d) Delete books");
+        System.out.println("e) Search authors");
+        System.out.println("f) Search best book of an author");
+        System.out.println("g) List authors");
+        System.out.println("h) List books");
+        System.out.println("q) Exit the program");
+        System.out.println();
+
+        Scanner sc = new Scanner(System.in);
+        String str;
+        System.out.print("Input the letter which represents your choice: ");
+        str = sc.nextLine();
+
+        while (!str.matches("[abcdefghq]")){
+
+            System.out.print("You entered a wrong letter! Input the letter which represents your choice: ");
+            str = sc.nextLine();
+
+        }
+        return str.charAt(0);
+
     }
 
     public static boolean continueProgram(){

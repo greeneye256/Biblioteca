@@ -15,7 +15,6 @@ public class Author {
         this.gender = gender;
         this.phoneNumber = phoneNumber;
         this.id = authorCount++;
-
     }
 
     public int getId() {
